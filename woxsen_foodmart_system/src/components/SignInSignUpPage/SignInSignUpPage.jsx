@@ -9,9 +9,15 @@ const SignInSignUpPage = ({ onLoginSuccess }) => {
   const [name, setName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [showOtp, setShowOtp] = useState(false);
+  const [otp, setOtp] = useState("");
 
   const handleToggleForm = () => {
-    setShowSignUp(!showSignUp);
+    if (showSignUp && showOtp) {
+      setShowOtp(false); // If the OTP section is visible and we want to toggle the form, hide the OTP section
+    } else {
+      setShowSignUp(!showSignUp);
+    }
     setError("");
   };
 
@@ -41,7 +47,41 @@ const SignInSignUpPage = ({ onLoginSuccess }) => {
         password,
       });
       console.log(response.data); // This should print the response from the server
-      setShowSignUp(false); // Switch back to the Sign In form after successful sign up
+
+      // If the server sends an error message, set the error state and don't show the OTP section
+      if (response.data.message !== "User registered successfully") {
+        setError(response.data.message);
+      } else {
+        // If the server sends a "success" message after signup, show the OTP input field
+        setShowOtp(true);
+      }
+    } catch (error) {
+      setError(error.response.data.message);
+    }
+  };
+
+  const handleOtpSubmit = async () => {
+    try {
+      // Make an API call to submit the OTP and complete the signup process
+      // You need to define the endpoint and the server's behavior to handle OTP verification.
+      // For this example, let's assume the endpoint is "/api/verify-otp".
+      const response = await axios.post(
+        "http://localhost:5000/api/verify-otp",
+        {
+          email,
+          otp,
+        }
+      );
+
+      // Handle the response accordingly, e.g., if the OTP is verified successfully, log in the user.
+      // If the server sends a token and user ID, save them to local storage or a state variable.
+      // For simplicity, let's assume the server sends a "success" message for verified OTP.
+      if (response.data.message === "success") {
+        // Save the token and user ID in local storage or a state variable
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("userId", response.data.userId);
+        onLoginSuccess(); // Call the onLoginSuccess function passed as a prop
+      }
     } catch (error) {
       setError(error.response.data.message);
     }
@@ -146,10 +186,33 @@ const SignInSignUpPage = ({ onLoginSuccess }) => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </label>
+
             <button type="button" className="submit" onClick={handleSignUp}>
               Sign Up Now
             </button>
             {error && <p className="error">{error}</p>}
+            {showOtp && (
+              <>
+                <label className="label">
+                  <span className="span">Enter OTP</span>
+                  <input
+                    className="input"
+                    type="text"
+                    name="otp"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                  />
+                </label>
+                <button
+                  type="button"
+                  className="submit"
+                  onClick={handleOtpSubmit}
+                >
+                  Submit OTP
+                </button>
+                {error && <p className="error">{error}</p>}
+              </>
+            )}
           </div>
         </div>
       </div>

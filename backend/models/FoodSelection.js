@@ -1,4 +1,3 @@
-// models/FoodSelection.js
 const mongoose = require("mongoose");
 
 const userFoodSelectionSchema = new mongoose.Schema({

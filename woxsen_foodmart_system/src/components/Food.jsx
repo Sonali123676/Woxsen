@@ -30,30 +30,45 @@ const FoodComponent = () => {
         return;
       }
 
-      const data = {
-        userId,
-        selectedDay,
-        breakfast: selectedVarieties["Breakfast Varieties"],
-        lunch: {
-          rice_varieties: selectedVarieties["Rice Lunch Varieties"],
-          Veg_varieties: selectedVarieties["Veg Lunch Varieties"],
-          nonVeg_varieties: selectedVarieties["NonVeg Lunch Varieties"],
-          sides_varieties: selectedVarieties["Sides in Lunch"],
-          sweet_varieties: selectedVarieties["Sweet Lunch Varieties"],
-          drink_varieties: selectedVarieties["Drink Lunch Varieties"],
-        },
-        dinner: {
-          rice_varieties: selectedVarieties["Rice Dinner Varieties"],
-          Veg_varieties: selectedVarieties["Veg Dinner Varieties"],
-          nonVeg_varieties: selectedVarieties["NonVeg Dinner Varieties"],
-          sides_varieties: selectedVarieties["Sides in Dinner"],
-          sweet_varieties: selectedVarieties["Sweet Dinner Varieties"],
-          drink_varieties: selectedVarieties["Drink Dinner Varieties"],
-          vegetable_varieties: selectedVarieties["Vegetable Varieties"],
-          khichdi_varieties: selectedVarieties["Khichdi Varieties"],
-          chinese_varieties: selectedVarieties["Chinese Varieties"],
-        },
-      };
+     // Assuming you have the selectedVarieties object and other necessary variables defined.
+// You can create an array to hold the data for each day of the week.
+const data = [];
+
+// Loop through each day of the week and populate the data accordingly.
+const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+daysOfWeek.forEach((day) => {
+  const dailyData = {
+    userId,
+    selectedDay: day,
+    breakfast: selectedVarieties["Breakfast Varieties"],
+    lunch: {
+      rice_varieties: selectedVarieties["Rice Lunch Varieties"],
+      Veg_varieties: selectedVarieties["Veg Lunch Varieties"],
+      nonVeg_varieties: selectedVarieties["NonVeg Lunch Varieties"],
+      sides_varieties: selectedVarieties["Sides in Lunch"],
+      sweet_varieties: selectedVarieties["Sweet Lunch Varieties"],
+      drink_varieties: selectedVarieties["Drink Lunch Varieties"],
+    },
+    dinner: {
+      rice_varieties: selectedVarieties["Rice Dinner Varieties"],
+      Veg_varieties: selectedVarieties["Veg Dinner Varieties"],
+      nonVeg_varieties: selectedVarieties["NonVeg Dinner Varieties"],
+      sides_varieties: selectedVarieties["Sides in Dinner"],
+      sweet_varieties: selectedVarieties["Sweet Dinner Varieties"],
+      drink_varieties: selectedVarieties["Drink Dinner Varieties"],
+      vegetable_varieties: selectedVarieties["Vegetable Varieties"],
+      khichdi_varieties: selectedVarieties["Khichdi Varieties"],
+      chinese_varieties: selectedVarieties["Chinese Varieties"],
+    },
+  };
+
+  // Push the daily data into the weeklyData array
+  data.push(dailyData);
+});
+
+// Now the weeklyData array contains the data for the whole week.
+
 
       console.log(data);
 
